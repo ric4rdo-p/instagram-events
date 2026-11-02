@@ -4,7 +4,8 @@ import Icon from "./Icon";
 import { Chip, SectionHeading, Tap, TopBar } from "./common";
 import { AiAnswer, EventCard, FriendPlansRow, MiniEvent, ResultRow } from "./eventParts";
 import { C } from "./theme";
-import { categories, feedEvents, searchEvents } from "./data";
+import { categories } from "./data";
+import { rankEvents, searchEvents } from "../muse";
 
 export default function EventsScreen({ onOpen, onBack, onOpenStory, onCreate }) {
   const [filter, setFilter] = useState("For you");
@@ -52,7 +53,7 @@ export default function EventsScreen({ onOpen, onBack, onOpenStory, onCreate }) 
         </View>
         {query ? (
           <View style={{ paddingHorizontal: 16, paddingBottom: 24 }}>
-            <AiAnswer count={results.length} />
+            <AiAnswer results={results} />
             {results.map((event) => (
               <ResultRow key={event.id} event={event} onPress={() => onOpen(event.id)} />
             ))}
@@ -67,7 +68,7 @@ export default function EventsScreen({ onOpen, onBack, onOpenStory, onCreate }) 
             </ScrollView>
             <SectionHeading title="Happening near you" sub="San Francisco • This week" action="See all" />
             <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10, paddingLeft: 16, paddingRight: 22, paddingBottom: 15 }}>
-              {feedEvents.slice(0, 2).map((event) => (
+              {rankEvents().slice(0, 2).map((event) => (
                 <MiniEvent key={event.id} event={event} onPress={() => onOpen(event.id)} />
               ))}
             </ScrollView>
@@ -77,7 +78,7 @@ export default function EventsScreen({ onOpen, onBack, onOpenStory, onCreate }) 
               <Text style={{ color: C.muted, fontSize: 12, flex: 1 }}>Picked for you by Muse</Text>
               <Icon name="more" size={18} color={C.muted} />
             </View>
-            {feedEvents.map((event) => (
+            {rankEvents().map((event) => (
               <EventCard key={event.id} event={event} onOpen={() => onOpen(event.id)} />
             ))}
           </>

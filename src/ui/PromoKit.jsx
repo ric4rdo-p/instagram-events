@@ -9,8 +9,9 @@ import Icon from "./Icon";
 import { Chip, MuseOrb, Photo, ProfilePic, Shimmer, Tap } from "./common";
 import { StickerCard } from "./StoryViewer";
 import { C } from "./theme";
-import { ME, defaultCustomRelease, isCustomRelease, photoList, releaseOptions, releaseWhen } from "./data";
+import { ME, defaultCustomRelease, isCustomRelease, releaseOptions, releaseWhen } from "./data";
 import { WhenRow } from "./pickers";
+import { adVariations, promoImages, reelCaptions as museReelCaptions } from "../muse";
 
 export const kitItems = {
   reel: { id: "reel", label: "Reel", tab: "reel" },
@@ -171,12 +172,9 @@ export default function PromoKit({ draft, initialTab, saved, releases, uploads, 
   const title = draft.title || "Your event";
   const isSaved = (id) => saved.some((x) => x.id === id);
   const cycle = reelStyle === "energetic" ? 6 : reelStyle === "chill" ? 12 : 9;
-  const reelImages = [draft.cover, photoList[(seed + 1) % photoList.length], photoList[(seed + 3) % photoList.length]];
-  const reelCaptions = [title, draft.range, "RSVP on Instagram"];
-  const adCopy = [
-    { id: "adA", headline: `${title} • ${draft.range.split(" • ")[0]}`, body: `Your next favorite night out is at ${draft.venueName || "a spot near you"}. ${draft.price}. Grab a friend and RSVP.`, cta: "RSVP now" },
-    { id: "adB", headline: "Come solo, leave with friends", body: `${title} brings people together ${draft.range.toLowerCase().includes("sat") ? "this Saturday" : "soon"}. Spots are filling up.`, cta: "Learn more" },
-  ];
+  const reelImages = promoImages(draft, seed);
+  const reelCaptions = museReelCaptions(draft);
+  const adCopy = adVariations(draft);
   const venueLabel = draft.venueName || "Location to be announced";
   const flyer = flyerThemes[flyerStyle];
 

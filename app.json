@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "instagram-clone-app",
-    "slug": "instagram-clone-app",
+    "name": "Instagram Events",
+    "slug": "instagram-events",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

@@ -5,7 +5,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import Icon from "./Icon";
 import { Grad, HostAvatar, MiniFaces, Photo, Tap, TopBar } from "./common";
 import { C } from "./theme";
-import { dateLabel, feedEvents, getEvent, gradientOf, initialsOf, photos, postSeeds } from "./data";
+import { dateLabel, getEvent, gradientOf, initialsOf, photos, postSeeds } from "./data";
+import { rankEvents } from "../muse";
 
 const stories = [
   ["Your story", photos.hero, true],
@@ -77,7 +78,7 @@ function HomeEventsModule({ mode, onEvents, onOpenEvent, onMenu }) {
         </View>
       </View>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 9, paddingLeft: 16, paddingRight: 26 }}>
-        {feedEvents.slice(0, 2).map((event) => (
+        {rankEvents().slice(0, 2).map((event) => (
           <Tap key={event.id} style={s.homeCard} onPress={() => onOpenEvent(event.id)}>
             <Photo uri={event.image} style={StyleSheet.absoluteFill} />
             <LinearGradient colors={["rgba(0,0,0,0.08)", "rgba(0,0,0,0.7)"]} style={StyleSheet.absoluteFill} />

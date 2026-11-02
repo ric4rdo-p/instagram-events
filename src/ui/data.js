@@ -195,45 +195,6 @@ export const seedExperiences = {
   3: [{ id: "x5", kind: "post", user: "devon.r", image: photos.music, caption: "Best free show in the city.", tagHost: false, tagEvent: true }],
 };
 
-const POSITIVE = /love|great|amazing|fun|welcom|best|chill|easy|worth|so good|unreal|beautiful|friendly/i;
-const NEGATIVE = /rough|crowded|packed|bad|boring|expensive|disorganized|too loud|cold/i;
-const PRAISE = [
-  { re: /music|dj|set|band|playlist/i, phrase: "the music" },
-  { re: /welcom|friendly|crowd|solo|friends/i, phrase: "how welcoming the crowd is" },
-  { re: /lesson|beginner|easy|jump in/i, phrase: "how easy it is to join in" },
-  { re: /food|potluck|snack|truck/i, phrase: "the food" },
-  { re: /space|lawn|view/i, phrase: "the space" },
-];
-const CONCERNS = [
-  { re: /parking|train/i, phrase: "parking" },
-  { re: /crowded|packed|line/i, phrase: "crowds later in the night" },
-  { re: /cold|fog|wind/i, phrase: "the weather" },
-];
-
-// Muse reads the comments to describe how people feel about the event
-export function commentMood(comments) {
-  const guests = comments.filter((c) => !c.isHost);
-  if (guests.length === 0) return null;
-  const positive = guests.filter((c) => POSITIVE.test(c.text));
-  const negative = guests.filter((c) => NEGATIVE.test(c.text));
-  const praise = PRAISE.filter((p) => positive.some((c) => p.re.test(c.text))).map((p) => p.phrase).slice(0, 2);
-  const concern = CONCERNS.find((p) => guests.some((c) => p.re.test(c.text)))?.phrase;
-  const liked = praise.length ? praise.join(" and ") : "the overall feel";
-  let message;
-  if (positive.length === 0 && negative.length === 0) message = "People are mostly asking questions so far, and the host is answering them.";
-  else if (negative.length === 0) message = `People are excited about this one, especially ${liked}.`;
-  else if (positive.length > negative.length) message = `Most people are feeling good about it and talk about ${liked}.`;
-  else message = `Feelings are mixed. People like ${liked}, but not everyone had a great time.`;
-  if (concern) message += ` A few suggest planning ahead for ${concern}.`;
-  return { message, count: guests.length };
-}
-
-export function searchEvents(query, pool = feedEvents) {
-  const words = query.toLowerCase().split(/\s+/).filter((w) => w.length > 2);
-  const matches = pool.filter((e) => words.some((w) => `${e.title} ${e.place} ${e.reason} ${e.about}`.toLowerCase().includes(w)));
-  return matches.length ? matches : pool;
-}
-
 // Feed content that keeps loading as you scroll
 export const postSeeds = [
   { user: "maya.chen", place: "Dolores Park, San Francisco", image: photos.dance, likes: "Liked by jordanlee and 3,241 others", caption: "Friday nights are for dancing with your people", comments: 48 },
@@ -247,15 +208,6 @@ export const attendedEvents = [
   { id: "a1", image: photos.dance, title: "Sunset Salsa on the Pier", date: "SAT, FEB 21", host: "bayareadance" },
   { id: "a2", image: photos.market, title: "Night Market at the Plaza", date: "FRI, FEB 13", host: "sf.weekender" },
   { id: "a3", image: photos.music, title: "Open Mic Under the Lights", date: "THU, JAN 29", host: "illuminatesf" },
-];
-
-// Muse Studio looks (mocked image generation). Native images can't take CSS filters,
-// so each look is a color wash laid over the photo.
-export const looks = [
-  { id: "golden", label: "Golden hour", tint: "rgba(255,170,60,0.24)" },
-  { id: "film", label: "Film", tint: "rgba(120,90,50,0.26)" },
-  { id: "vivid", label: "Vivid", tint: "rgba(255,0,120,0.10)" },
-  { id: "dusk", label: "Dusk", tint: "rgba(70,40,160,0.30)" },
 ];
 
 // Friends' RSVPs, shown as event stories
@@ -274,49 +226,6 @@ export const hostedPast = [
 export const hostedStats = { 4: "18 going • 31 interested", 5: "9 going • 24 interested" };
 
 export const reelViews = ["12.4K", "3.1K", "86.2K", "940", "21K", "5.7K"];
-
-// ---------- Muse helpers (mocked locally so the demo never waits on the network) ----------
-
-const SMALL_WORDS = new Set(["a", "an", "and", "at", "for", "in", "of", "on", "or", "the", "to", "with", "vs"]);
-function toTitleCase(text) {
-  return text
-    .split(" ")
-    .map((word, i) => {
-      if (/[A-Z]/.test(word.slice(1))) return word; // keep acronyms like DJ, UT
-      const lower = word.toLowerCase();
-      if (i > 0 && SMALL_WORDS.has(lower)) return lower;
-      return lower.charAt(0).toUpperCase() + lower.slice(1);
-    })
-    .join(" ");
-}
-
-export function suggestTitle(title) {
-  const cleaned = title.trim().replace(/\s+/g, " ").replace(/[.!]+$/, "");
-  if (cleaned.length < 3) return null;
-  const suggestion = toTitleCase(cleaned);
-  return suggestion === title.trim() ? null : suggestion;
-}
-
-export function suggestDescription(description) {
-  const cleaned = description.trim().replace(/\s+/g, " ");
-  if (cleaned.length < 15) return null;
-  let suggestion = cleaned.replace(/(^|[.!?]\s+)([a-z])/g, (_, lead, ch) => lead + ch.toUpperCase());
-  suggestion = suggestion.replace(/\bi\b/g, "I");
-  if (!/[.!?]$/.test(suggestion)) suggestion += ".";
-  if (!/welcome|solo|everyone/i.test(suggestion)) suggestion += " Come solo or bring a friend. Everyone is welcome.";
-  return suggestion === description.trim() ? null : suggestion;
-}
-
-export function museAnswer(question, event) {
-  const q = question.toLowerCase();
-  const venue = event.place.split(" • ")[0];
-  if (/solo|alone|by myself|myself|know anyone/.test(q)) return `Yes. Most people at ${event.title} come solo or in pairs, and the host keeps it welcoming. ${event.social.split(" and ")[0]} will be there if you want a familiar face.`;
-  if (/wear|dress|outfit|bring/.test(q)) return "Casual and comfortable. Past attendees posted sneakers and layers. It gets cooler after sunset, so bring a jacket.";
-  if (/park|parking|drive|get there|transit|bart|bus/.test(q)) return `Street parking near ${venue} fills up quickly. Transit or a bike is easier, and there’s a rack by the main entrance.`;
-  if (/cost|price|free|ticket|pay|\$/.test(q)) return event.price === "Free" ? "It’s free. The host asks people to RSVP so they can plan for the headcount." : `Tickets are ${event.price} at the door. RSVPing on Instagram holds your spot.`;
-  if (/time|when|start|late|end/.test(q)) return `It starts at ${event.time} on ${weekdayFull[event.weekday]}. The first 30 minutes are the easiest time to meet people.`;
-  return `From the host’s posts and past events: ${event.summary} Ask me about cost, dress code, parking, or going solo for specifics.`;
-}
 
 // ---------- Search tab ----------
 
@@ -345,13 +254,6 @@ export const searchPosts = [
 ];
 export const searchReels = allExperiences.filter((x) => x.kind === "reel").map((x) => ({ id: x.id, user: x.user, image: x.image, text: x.caption, views: x.views }));
 
-// Same rule as event search: keep matches, fall back to everything so a section is never empty
-export function searchPool(query, pool, textOf) {
-  const words = query.toLowerCase().split(/\s+/).filter((w) => w.length > 2);
-  const matches = pool.filter((item) => words.some((w) => textOf(item).toLowerCase().includes(w)));
-  return matches.length ? matches : pool;
-}
-
 export const searchSuggestions =["free events this weekend", "live music near me", "things my friends are going to"];
 
 // ---------- Event detail ----------
@@ -363,21 +265,6 @@ export const attendees = [
   { user: "luis.m", initials: "LM", gradient: "blue", note: "Going • Followed by maya.chen", following: false },
   { user: "nina.park", initials: "NP", gradient: "violet", note: "Interested • Followed by jordanlee", following: false },
 ];
-
-const SIMILAR_STOP = new Set(["about", "their", "there", "with", "from", "your", "every", "level", "people", "after", "takes", "right"]);
-const keywords = (e) => new Set(`${e.title} ${e.about}`.toLowerCase().match(/[a-z]{5,}/g)?.filter((w) => !SIMILAR_STOP.has(w)) ?? []);
-export function similarScore(a, b) {
-  const ka = keywords(a);
-  let score = [...keywords(b)].filter((w) => ka.has(w)).length;
-  if (a.price === b.price) score += 1;
-  if (/maya|jordan|sofia|friend/i.test(b.social)) score += 1;
-  return score;
-}
-export function similarReason(a, b) {
-  if (/maya|jordan|sofia|friend/i.test(b.social)) return b.social.replace(/ and \d+ others/, " and others");
-  if (a.price === "Free" && b.price === "Free") return "Also free • Similar crowd";
-  return "Popular with people going to this";
-}
 
 export const reportReasons = ["It’s a scam or fake event", "Safety concern at this event", "Wrong date, place, or price", "Harassment or hate speech", "Something else"];
 

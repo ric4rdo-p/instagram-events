@@ -8,9 +8,10 @@ import PromoKit from "./PromoKit";
 import { WhenRow } from "./pickers";
 import { C } from "./theme";
 import {
-  DEMO_ORIGIN, ME, audienceHelp, clock, defaultRelease, domainOf, formatRange, looks, monthShort, nextSaturday, photoList, photos, releaseLabel, releaseWhen,
-  suggestDescription, suggestTitle, venues, weekdayShort,
+  DEMO_ORIGIN, ME, audienceHelp, clock, defaultRelease, domainOf, formatRange, monthShort, nextSaturday, photoList, photos, releaseLabel, releaseWhen,
+  venues, weekdayShort,
 } from "./data";
+import { audienceMatch, coverLooks, draftEventDetails, suggestDescription, suggestTitle } from "../muse";
 
 function MuseField({ label, value, onChange, placeholder, max, multiline = false, suggest, hint }) {
   const suggestion = useMemo(() => suggest(value), [suggest, value]);
@@ -195,7 +196,7 @@ export default function CreateScreen({ onClose, onPublish }) {
     setTimeout(() => {
       const n = coverGen + 1;
       setCover(photoList[n % photoList.length]);
-      setCoverTint(looks[n % looks.length].tint);
+      setCoverTint(coverLooks[n % coverLooks.length].tint);
       setCoverGen(n);
       setCoverChosen(true);
       setGeneratingCover(false);
@@ -304,9 +305,10 @@ export default function CreateScreen({ onClose, onPublish }) {
             />
             <Tap
               onPress={() => {
+                const draft = draftEventDetails();
                 setGenerated(true);
-                setTitle("Golden Hour Community Picnic");
-                setDescription("Meet us on the lawn for live music, picnic blankets, and golden hour with your neighbors. Come solo or bring a friend. Everyone is welcome.");
+                setTitle(draft.title);
+                setDescription(draft.description);
               }}
             >
               <Grad colors={["#f5efff", "#fff2f6"]} style={s.museGenerate}>
@@ -491,9 +493,7 @@ export default function CreateScreen({ onClose, onPublish }) {
               <Icon name="sparkles" size={18} color={C.purpleMid} />
               <Text style={{ flex: 1, color: C.sub, fontSize: 11, lineHeight: 16 }}>
                 <Text style={{ fontWeight: "700", color: C.ink }}>Muse audience match{"\n"}</Text>
-                {audience === "Public"
-                  ? "Your event will be recommended to local people who engage with community, music, and outdoor events, not just your followers."
-                  : `Muse will only recommend it to ${audience.toLowerCase()}${venue ? ` near ${venue.name}` : ""} who engage with events like yours.`}
+                {audienceMatch(audience, venue)}
               </Text>
             </View>
             {!canContinue ? <Text style={s.hint}>{missing}</Text> : null}

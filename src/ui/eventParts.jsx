@@ -5,6 +5,7 @@ import Icon from "./Icon";
 import { Grad, HostAvatar, MiniFaces, Photo, PlanAvatar, Tap } from "./common";
 import { C } from "./theme";
 import { dateLabel, friendPlans, getEvent } from "./data";
+import { recommendationReason, summarizeSearch } from "../muse";
 
 export function InterestButton({ active, onPress, style }) {
   return (
@@ -25,7 +26,7 @@ export function EventCard({ event, onOpen }) {
         <HostAvatar gradient={event.gradient} label={event.avatar} size={32} />
         <View style={{ flex: 1, minWidth: 0 }}>
           <Text style={{ fontSize: 13, fontWeight: "700", color: C.ink }}>{event.host}</Text>
-          <Text style={{ color: C.muted, fontSize: 11 }} numberOfLines={1}>{event.reason}</Text>
+          <Text style={{ color: C.muted, fontSize: 11 }} numberOfLines={1}>{recommendationReason(event)}</Text>
         </View>
         <Icon name="more" />
       </View>
@@ -100,12 +101,13 @@ export function ResultRow({ event, onPress }) {
   );
 }
 
-export function AiAnswer({ count }) {
+export function AiAnswer({ results }) {
+  const { count, text } = summarizeSearch(results);
   return (
     <View style={s.aiAnswer}>
       <Icon name="sparkles" size={18} color={C.purple} />
       <Text style={{ flex: 1, fontSize: 13, lineHeight: 19, color: C.ink }}>
-        I found <Text style={{ fontWeight: "700" }}>{count} {count === 1 ? "event" : "events"}</Text> that match. They’re close by, fit your usual saves, and friends are interested in some of them.
+        I found <Text style={{ fontWeight: "700" }}>{count} {count === 1 ? "event" : "events"}</Text> {text}
       </Text>
     </View>
   );

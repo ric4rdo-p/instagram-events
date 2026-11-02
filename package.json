@@ -1,17 +1,14 @@
 {
-  "name": "instagram-clone-app",
+  "name": "instagram-events",
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "web": "expo start --web",
-    "smoke-test": "node --env-file=.env.local scripts/smoke-test.mjs"
+    "web": "expo start --web"
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "2.2.0",
-    "@supabase/supabase-js": "^2.118.0",
     "expo": "^58.0.19",
     "expo-asset": "~58.0.18",
     "expo-clipboard": "~58.0.4",
@@ -26,8 +23,7 @@
     "react-native": "0.88.0",
     "react-native-gesture-handler": "~3.3.0",
     "react-native-safe-area-context": "~5.10.1",
-    "react-native-svg": "15.16.0",
-    "react-native-url-polyfill": "^4.0.0"
+    "react-native-svg": "15.16.0"
   },
   "devDependencies": {
     "@babel/core": "^7.29.7",
