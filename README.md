@@ -2,9 +2,7 @@
 
 <img alt="Instagram Logo" src="./assets/images/header-logo.png" width="60%">
 
-**For years, Instagram has been where we share the night after it happens. We want it to be where the night begins.**
-
-Instagram Events is a design concept for bringing event discovery into Instagram, so people find real-world events near them, including from hosts they don't follow yet, and actually show up. Muse, Meta's AI, does the work on both sides: it helps hosts create and promote an event from one sentence, and it helps people decide to go.
+A hackathon demo that brings **Events** into Instagram. Find things to do near you, see which events your friends are going to, and host your own event without leaving the app.
 
 Built at **HackTX 2026** for Meta's **"Bringing people closer together with AI"** track by Ricardo Pena and Tiffany Johnson.
 
@@ -20,37 +18,48 @@ Built at **HackTX 2026** for Meta's **"Bringing people closer together with AI"*
 
 **Read more:** [Product brief](docs/product-brief.md)
 
-## Why Events in Instagram?
+## Features
 
-Young people look for things to do on Instagram, but events don't have a real place there. Posts from hosts you follow get buried in the feed, and the event posts the recommendation system shows from other accounts are rarely near you, happening soon or what you're in the mood for. Facebook has a mature events system, but most of our generation isn't on it.
+### Home feed
+- An **events row** in the Home feed with events near you and events your friends are going to.
+- **Sponsored event posts** show up in the feed with a **Get tickets** or **RSVP** button.
+- Choose how many events appear on Home: all of them, fewer or none.
 
-We're both social events coordinators, and we feel this from the host's side too: our flyers reach our followers, and the people who'd love the event most never see it.
+### Events tab
+- **Search** events by name, place or vibe.
+- **Friend plans** in a story-style row show what friends are going to. Tap one to watch it like a story and jump straight to the event.
+- **Category chips** to filter by type of event.
+- A **Happening near you** section, plus full event cards.
+- One-tap **I'm interested** on every card.
 
-People stay home for four reasons, and each one has an answer in the design:
+### Event page
+- A cover photo, the host, date and time, price, and interested and going counts.
+- A **map** of the venue and its distance from you.
+- **Who's going**, including friends.
+- **Ask Muse:** ask questions about the event ("Is it kid-friendly?", "Where do I park?") and get an answer right away.
+- **Comments** and **Experiences**, where attendees share photos and videos from the event.
+- **Similar events** to keep exploring.
+- Share, add to calendar or report the event, with anonymous reporting.
 
-| Why people stay home | What Instagram Events does |
-| --- | --- |
-| They never hear about it | Muse ranks events near you and happening soon, from any host, and says why it picked each one |
-| They don't know who's going | Friends' RSVPs show up as stories |
-| They're unsure what to expect | Muse summarizes each event, reads the comments for how people feel, and answers questions like "Can I go solo?" |
-| Hosts can't reach anyone new | A host writes one sentence, and Muse writes the listing and makes the cover, Reel, flyer, Story and ads |
+### Search
+- Results for accounts, posts, reels and events in one place, with "See more" on each.
+- A **Muse summary** of the matching events, with filters.
 
-After the event, posts and Reels that tag it show up on the event page, helping the next first-timer decide to go.
+### Hosting an event
+Tap **+** and choose **Event**, or tap **Host** on the Events tab.
 
-## What's in the demo
+1. **Basics:** add a cover photo, or have Muse generate one. Have Muse write the event name and description for you.
+2. **Details:** pick the start and end time from a calendar and time picker, then set the location, free or paid tickets, links and audience (public, followers only or verified students). You can also require approval for RSVPs and turn on safety filters. Muse explains who the event will be recommended to.
+3. **Review and share:** preview the event, choose where to share it (Instagram and Facebook Events), and build a **Promo Kit**.
 
-- **Home:** a "Happening near you" row and an Events button in the top bar. People can show fewer events on Home or hide them.
-- **Events page:** search, friends' plans as stories, category chips, events near you and Muse-picked event cards that explain why they're there.
-- **Event page:**
-  - Map with drive time, who's going, a Muse summary and **Ask Muse**.
-  - Comments, **Experiences** (posts and Reels that tag the event) and similar events.
-  - Add to calendar, share and report.
-- **Search:** plain-language search across events, accounts, posts and Reels, plus Browse by vibe.
-- **Hosting:**
-  - A three-step create flow, with Muse writing suggestions on the title and description.
-  - Start and end times, location, tickets, links, and audience controls (public, followers only or verified students, approve RSVPs, safety filters).
-  - A **Promo Kit**: a Reel, flyer, Story and two ads, each scheduled to post at its own time.
-- **Profile:** an Events tab with Hosting, Past and Went to. "Went to" can be private, and any event can be hidden from it.
+### Promo Kit
+- Muse makes a **Reel, a flyer, a story and two ads** for your event. You can regenerate any of them or upload your own photo or video.
+- **Schedule each piece:** post it right away, a week before, three days before, a day before or the day of the event, or pick an exact date and time.
+- Saved pieces are listed before you publish, with their scheduled time.
+
+### Profile
+- An **Events tab** on your profile with events you're **Hosting**, **Past** events and events you **Went to**.
+- Make the "Went to" list private, or hide individual events from it.
 
 ## How Muse fits
 
@@ -110,15 +119,6 @@ Then press `i` for the iOS Simulator or `a` for an Android emulator, or scan the
   - `HomeScreen`, `EventsScreen`, `DetailScreen`, `SearchScreen`, `ProfileScreen`, `CreateScreen`, `PromoKit`: one file per screen
 - `src/muse/`: the Muse layer (`index.js` is the interface, `mock.js` the scripted version)
 - `docs/`: the product brief and screenshots
-
-## What we'd explore next
-
-- Connect Ask Muse and search to Muse Spark, then the Promo Kit images to Muse Image.
-- Ranking events when someone's friend graph is thin.
-- Recommending events from hosts you don't follow without it feeling like an ad.
-- Keeping attendance private and real-world events safe.
-
-If you work on Instagram, Facebook Events or Muse and have thoughts on any of these, we'd love to hear them.
 
 ## Credits and license
 
