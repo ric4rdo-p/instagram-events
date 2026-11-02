@@ -10,9 +10,10 @@ import { ActionSheet, BottomModal, Grad, HostAvatar, MiniFaces, Photo, PlanAvata
 import { MiniEvent } from "./eventParts";
 import { C } from "./theme";
 import {
-  DEMO_ORIGIN, ME, attendees, commentMood, dateLabel, detailsFor, domainOf, driveMinutes, eventEnd, eventStart, feedEvents,
-  gradientOf, initialsOf, kmBetween, linksFor, museAnswer, photoList, rangeParts, reportReasons, similarReason, similarScore, venueFor,
+  DEMO_ORIGIN, ME, attendees, dateLabel, detailsFor, domainOf, driveMinutes, eventEnd, eventStart,
+  gradientOf, initialsOf, kmBetween, linksFor, photoList, rangeParts, reportReasons, venueFor,
 } from "./data";
+import { answerQuestion, similarEvents, summarizeComments } from "../muse";
 
 function AskMuse({ event }) {
   const [question, setQuestion] = useState("");
@@ -21,7 +22,7 @@ function AskMuse({ event }) {
   const ask = (text) => {
     const q = text.trim();
     if (!q) return;
-    setThread((t) => [...t, { q, a: museAnswer(q, event) }]);
+    setThread((t) => [...t, { q, a: answerQuestion(q, event) }]);
     setQuestion("");
   };
   return (
@@ -410,10 +411,7 @@ function ExperiencesSection({ event, items, onAdd }) {
 }
 
 function SimilarEvents({ event, onOpen }) {
-  const picks = useMemo(
-    () => feedEvents.filter((e) => e.id !== event.id).map((e) => ({ e, score: similarScore(event, e) })).sort((x, y) => y.score - x.score).slice(0, 4).map((x) => x.e),
-    [event],
-  );
+  const picks = useMemo(() => similarEvents(event), [event]);
   if (picks.length === 0) return null;
   return (
     <View style={[s.block, { paddingBottom: 10 }]}>
@@ -425,8 +423,8 @@ function SimilarEvents({ event, onOpen }) {
         <Text style={{ fontSize: 12, color: C.muted }}>Picked by Muse based on this event and who’s going</Text>
       </View>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginHorizontal: -17 }} contentContainerStyle={{ gap: 10, paddingHorizontal: 17, paddingBottom: 6 }}>
-        {picks.map((e) => (
-          <MiniEvent key={e.id} event={e} height={120} onPress={() => onOpen(e.id)} reason={similarReason(event, e)} />
+        {picks.map(({ event: e, reason }) => (
+          <MiniEvent key={e.id} event={e} height={120} onPress={() => onOpen(e.id)} reason={reason} />
         ))}
       </ScrollView>
     </View>
@@ -445,7 +443,7 @@ export default function DetailScreen({ event, comments, experiences, onAddCommen
   const details = detailsFor(event);
   const links = linksFor(event);
   const when = rangeParts(eventStart(event), eventEnd(event));
-  const mood = useMemo(() => commentMood(comments), [comments]);
+  const mood = useMemo(() => summarizeComments(comments), [comments]);
   const closeSheet = useCallback(() => setSheet(null), []);
   const copyLink = () => {
     Clipboard.setStringAsync(`https://www.instagram.com/events/${event.id}`).catch(() => undefined);

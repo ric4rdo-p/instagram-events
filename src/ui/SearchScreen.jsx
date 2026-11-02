@@ -6,8 +6,9 @@ import { Grad, MuseOrb, Photo, PlanAvatar, SectionHeading, Tap, nearBottom } fro
 import { AiAnswer, ResultRow } from "./eventParts";
 import { C } from "./theme";
 import {
-  accounts, feedEvents, getEvent, initialRecents, photoList, photos, reelViews, searchEvents, searchPool, searchPosts, searchReels, searchSuggestions, venueFor,
+  accounts, feedEvents, getEvent, initialRecents, photoList, photos, reelViews, searchPosts, searchReels, searchSuggestions, venueFor,
 } from "./data";
+import { searchEvents, searchPool } from "../muse";
 
 function ReelsGrid({ count }) {
   const { width } = useWindowDimensions();

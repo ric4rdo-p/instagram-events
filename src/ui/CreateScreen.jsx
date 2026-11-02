@@ -8,9 +8,10 @@ import PromoKit from "./PromoKit";
 import { WhenRow } from "./pickers";
 import { C } from "./theme";
 import {
-  DEMO_ORIGIN, ME, audienceHelp, clock, defaultRelease, domainOf, formatRange, looks, monthShort, nextSaturday, photoList, photos, releaseLabel, releaseWhen,
-  suggestDescription, suggestTitle, venues, weekdayShort,
+  DEMO_ORIGIN, ME, audienceHelp, clock, defaultRelease, domainOf, formatRange, monthShort, nextSaturday, photoList, photos, releaseLabel, releaseWhen,
+  venues, weekdayShort,
 } from "./data";
+import { coverLooks, suggestDescription, suggestTitle } from "../muse";
 
 function MuseField({ label, value, onChange, placeholder, max, multiline = false, suggest, hint }) {
   const suggestion = useMemo(() => suggest(value), [suggest, value]);
@@ -195,7 +196,7 @@ export default function CreateScreen({ onClose, onPublish }) {
     setTimeout(() => {
       const n = coverGen + 1;
       setCover(photoList[n % photoList.length]);
-      setCoverTint(looks[n % looks.length].tint);
+      setCoverTint(coverLooks[n % coverLooks.length].tint);
       setCoverGen(n);
       setCoverChosen(true);
       setGeneratingCover(false);

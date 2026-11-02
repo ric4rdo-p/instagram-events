@@ -4,7 +4,8 @@ import Icon from "./Icon";
 import { Chip, SectionHeading, Tap, TopBar } from "./common";
 import { AiAnswer, EventCard, FriendPlansRow, MiniEvent, ResultRow } from "./eventParts";
 import { C } from "./theme";
-import { categories, feedEvents, searchEvents } from "./data";
+import { categories, feedEvents } from "./data";
+import { searchEvents } from "../muse";
 
 export default function EventsScreen({ onOpen, onBack, onOpenStory, onCreate }) {
   const [filter, setFilter] = useState("For you");
