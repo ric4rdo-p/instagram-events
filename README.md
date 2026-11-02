@@ -18,7 +18,7 @@ Built at **HackTX 2026** for Meta's **"Bringing people closer together with AI"*
   <img src="docs/screenshots/05-profile.jpg" width="19%" alt="Profile Events tab for hosts">
 </p>
 
-**Read more:** [Product brief](docs/product-brief.md) · [LinkedIn post](ADD-LINK) · [LinkedIn article](ADD-LINK) · [Demo video](ADD-LINK)
+**Read more:** [Product brief](docs/product-brief.md)
 
 ## Why Events in Instagram?
 
