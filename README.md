@@ -36,7 +36,7 @@ Built at **HackTX 2026** for Meta's **"Bringing people closer together with AI"*
 - A cover photo, the host, date and time, price, and interested and going counts.
 - A **map** of the venue and its distance from you.
 - **Who's going**, including friends.
-- **Ask Muse:** ask questions about the event ("Is it kid-friendly?", "Where do I park?") and get an answer right away.
+- **Ask Muse:** ask questions about the event ("Can I go solo?", "Is parking easy?") and get an answer right away.
 - **Comments** and **Experiences**, where attendees share photos and videos from the event.
 - **Similar events** to keep exploring.
 - Share, add to calendar or report the event, with anonymous reporting.
@@ -91,7 +91,7 @@ Muse, Meta's AI, shows up wherever a person has to decide something: what to go 
 | **Create, step 1**, "Create details with Muse" | Turns a few words into a title and description | `draftEventDetails` |
 | **Create, step 1**, title and description | Suggests clearer wording, like a grammar checker, with Accept or Dismiss | `suggestTitle`, `suggestDescription` |
 | **Create, step 2**, Muse audience match | Explains who the event will be recommended to, based on the audience setting | `audienceMatch` |
-| **Promo Kit** | Makes a Reel (with captions), a flyer, a Story and two ad variations from the event details | `reelCaptions`, `adVariations`, `coverLooks` |
+| **Promo Kit** | Makes a Reel (images and captions), a flyer, a Story and two ad variations from the event details | `promoImages`, `reelCaptions`, `adVariations` |
 
 ### How it's built
 

@@ -15,7 +15,8 @@
 // | similarEvents        | Event page           | Muse Spark         |
 // | suggestTitle         | Create               | Muse Spark         |
 // | suggestDescription   | Create               | Muse Spark         |
-// | coverLooks           | Create, Promo Kit    | Muse Image         |
+// | coverLooks           | Create               | Muse Image         |
+// | promoImages          | Promo Kit            | Muse Image         |
 // | summarizeSearch      | Events, Search       | Muse Spark         |
 // | draftEventDetails    | Create               | Muse Spark         |
 // | audienceMatch        | Create               | Muse Spark         |
@@ -34,6 +35,7 @@
 //   suggestTitle(text)                  -> string | null  (null = nothing to suggest)
 //   suggestDescription(text)            -> string | null
 //   coverLooks                          -> { id, label, tint }[]
+//   promoImages(draft, variant?)        -> image[]
 //   summarizeSearch(results)            -> { count, text }
 //   draftEventDetails(brief?)           -> { title, description }
 //   audienceMatch(audience, venue?)     -> string
@@ -55,6 +57,7 @@ export {
   suggestTitle,
   suggestDescription,
   coverLooks,
+  promoImages,
   summarizeSearch,
   draftEventDetails,
   audienceMatch,

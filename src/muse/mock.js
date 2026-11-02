@@ -1,7 +1,7 @@
 // Scripted stand-ins for Muse. Every function here returns the same shape a real
 // Muse call would, using simple rules over the demo data so the demo runs offline.
 // Replace these one at a time with Muse Spark / Muse Image calls (see ./index.js).
-import { feedEvents, weekdayFull } from "../ui/data";
+import { feedEvents, photoList, weekdayFull } from "../ui/data";
 
 // ---------- Search ----------
 
@@ -164,7 +164,14 @@ export function audienceMatch(audience, venue) {
     : `Muse will only recommend it to ${audience.toLowerCase()}${venue ? ` near ${venue.name}` : ""} who engage with events like yours.`;
 }
 
-// ---------- Promo Kit copy ----------
+// ---------- Promo Kit ----------
+
+// The images Muse would generate for the Reel. The demo uses the cover plus demo photos;
+// `variant` changes each time the host taps Regenerate.
+export function promoImages(draft, variant = 0) {
+  return [draft.cover, photoList[(variant + 1) % photoList.length], photoList[(variant + 3) % photoList.length]];
+}
+
 
 export function reelCaptions(draft) {
   return [draft.title || "Your event", draft.range, "RSVP on Instagram"];
