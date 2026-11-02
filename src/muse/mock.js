@@ -50,6 +50,13 @@ export function summarizeComments(comments) {
   return { message, count: guests.length };
 }
 
+// ---------- Event summary ----------
+
+// What to expect: cost, vibe, who it's for. In the demo each event carries its summary.
+export function summarizeEvent(event) {
+  return event.summary;
+}
+
 // ---------- Ask Muse ----------
 
 export function answerQuestion(question, event) {
@@ -134,3 +141,52 @@ export const coverLooks = [
   { id: "vivid", label: "Vivid", tint: "rgba(255,0,120,0.10)" },
   { id: "dusk", label: "Dusk", tint: "rgba(70,40,160,0.30)" },
 ];
+
+// ---------- Search summary ----------
+
+export function summarizeSearch(results) {
+  const count = results.length;
+  return { count, text: "that match. They’re close by, fit your usual saves, and friends are interested in some of them." };
+}
+
+// ---------- Event drafting for hosts ----------
+
+export function draftEventDetails() {
+  return {
+    title: "Golden Hour Community Picnic",
+    description: "Meet us on the lawn for live music, picnic blankets, and golden hour with your neighbors. Come solo or bring a friend. Everyone is welcome.",
+  };
+}
+
+export function audienceMatch(audience, venue) {
+  return audience === "Public"
+    ? "Your event will be recommended to local people who engage with community, music, and outdoor events, not just your followers."
+    : `Muse will only recommend it to ${audience.toLowerCase()}${venue ? ` near ${venue.name}` : ""} who engage with events like yours.`;
+}
+
+// ---------- Promo Kit copy ----------
+
+export function reelCaptions(draft) {
+  return [draft.title || "Your event", draft.range, "RSVP on Instagram"];
+}
+
+export function adVariations(draft) {
+  const title = draft.title || "Your event";
+  return [
+    { id: "adA", headline: `${title} • ${draft.range.split(" • ")[0]}`, body: `Your next favorite night out is at ${draft.venueName || "a spot near you"}. ${draft.price}. Grab a friend and RSVP.`, cta: "RSVP now" },
+    { id: "adB", headline: "Come solo, leave with friends", body: `${title} brings people together ${draft.range.toLowerCase().includes("sat") ? "this Saturday" : "soon"}. Spots are filling up.`, cta: "Learn more" },
+  ];
+}
+
+// ---------- Feed ranking ----------
+
+// Orders events for this person: near them, happening soon, matching their
+// interests and what friends are going to. The demo data is already in that order.
+export function rankEvents(pool = feedEvents) {
+  return pool;
+}
+
+// Why Muse picked an event for this person. In the demo each event carries its reason.
+export function recommendationReason(event) {
+  return event.reason;
+}

@@ -6,7 +6,7 @@
 
 Instagram Events is a design concept for bringing event discovery into Instagram, so people find real-world events near them, including from hosts they don't follow yet, and actually show up. Muse, Meta's AI, does the work on both sides: it helps hosts create and promote an event from one sentence, and it helps people decide to go.
 
-Built at **HackTX 2026** for Meta's **"Bringing people closer together with AI"** track by Ricardo Pena and Tiffany [ADD LAST NAME].
+Built at **HackTX 2026** for Meta's **"Bringing people closer together with AI"** track by Ricardo Pena and Tiffany Johnson.
 
 > **A design concept, not an official Meta product.** This project is not affiliated with, endorsed by or sponsored by Meta or Instagram. It's a purely designed, front-end demo of what an Events feature could look like. It is not meant to be a working backend for Instagram Events: every event, person and comment is demo data, and Muse's responses are scripted.
 
@@ -54,18 +54,41 @@ After the event, posts and Reels that tag it show up on the event page, helping 
 
 ## How Muse fits
 
-Every AI feature goes through one module, [`src/muse/`](src/muse/index.js). Screens import from `src/muse` and never from the implementation, so connecting real Muse means replacing one function at a time without touching the UI.
+Muse, Meta's AI, shows up wherever a person has to decide something: what to go to, whether it's worth going, and how to get the word out. Here's every place it's used in the app.
 
-| Function | Where it's used | Would be backed by |
+### Finding events
+
+| Where | What Muse does | Function |
 | --- | --- | --- |
-| `searchEvents`, `searchPool` | Events and Search | Muse Spark |
-| `summarizeComments` | Event page | Muse Spark |
-| `answerQuestion` | Ask Muse | Muse Spark |
-| `similarEvents` | Event page | Muse Spark |
-| `suggestTitle`, `suggestDescription` | Create | Muse Spark |
-| `coverLooks` | Create and Promo Kit | Muse Image |
+| **Home**, "Happening near you" | Picks events near you and ones your friends are going to | `rankEvents` |
+| **Events page**, "Picked for you by Muse" | Ranks event cards and shows why each one was picked ("Because you follow sf.funcheap") | `rankEvents`, `recommendationReason` |
+| **Events page**, search bar | Searches events in plain language and sums up what it found | `searchEvents`, `summarizeSearch` |
+| **Search tab**, "Search or ask Muse" | Understands requests like "free events this weekend" across events, accounts, posts and Reels, and sums up the event results | `searchEvents`, `searchPool`, `summarizeSearch` |
 
-Today these are scripted in [`src/muse/mock.js`](src/muse/mock.js) with simple rules over the demo data, so the demo works offline and never waits on the network. `src/muse/index.js` documents the inputs and outputs each function should keep when it's swapped for a real call.
+### Deciding to go
+
+| Where | What Muse does | Function |
+| --- | --- | --- |
+| **Event page**, Muse summary | Sums up what to expect: cost, vibe and who it's for | `summarizeEvent` |
+| **Event page**, Muse summary | Reads the comments and describes how people feel about the event | `summarizeComments` |
+| **Event page**, Ask Muse | Answers questions like "Can I go solo?", "What should I wear?" or "Is parking easy?" | `answerQuestion` |
+| **Event page**, Similar events | Suggests related events and says why each one fits | `similarEvents` |
+
+### Hosting an event
+
+| Where | What Muse does | Function |
+| --- | --- | --- |
+| **Create, step 1**, cover photo | Generates a cover image for the event | `coverLooks` |
+| **Create, step 1**, "Create details with Muse" | Turns a few words into a title and description | `draftEventDetails` |
+| **Create, step 1**, title and description | Suggests clearer wording, like a grammar checker, with Accept or Dismiss | `suggestTitle`, `suggestDescription` |
+| **Create, step 2**, Muse audience match | Explains who the event will be recommended to, based on the audience setting | `audienceMatch` |
+| **Promo Kit** | Makes a Reel (with captions), a flyer, a Story and two ad variations from the event details | `reelCaptions`, `adVariations`, `coverLooks` |
+
+### How it's built
+
+Every one of these goes through a single module, [`src/muse/`](src/muse/index.js). Screens import from `src/muse` and never from the implementation, so connecting real Muse means replacing one function at a time without touching the UI. Text features would be backed by Muse Spark, and image features (covers and Promo Kit visuals) by Muse Image.
+
+Today the functions are scripted in [`src/muse/mock.js`](src/muse/mock.js) with simple rules over the demo data, so the demo works offline and never waits on the network. [`src/muse/index.js`](src/muse/index.js) documents the inputs and outputs each function should keep when it's swapped for a real call.
 
 ## Running it
 

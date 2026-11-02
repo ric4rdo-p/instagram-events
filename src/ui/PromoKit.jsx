@@ -11,6 +11,7 @@ import { StickerCard } from "./StoryViewer";
 import { C } from "./theme";
 import { ME, defaultCustomRelease, isCustomRelease, photoList, releaseOptions, releaseWhen } from "./data";
 import { WhenRow } from "./pickers";
+import { adVariations, reelCaptions as museReelCaptions } from "../muse";
 
 export const kitItems = {
   reel: { id: "reel", label: "Reel", tab: "reel" },
@@ -172,11 +173,8 @@ export default function PromoKit({ draft, initialTab, saved, releases, uploads, 
   const isSaved = (id) => saved.some((x) => x.id === id);
   const cycle = reelStyle === "energetic" ? 6 : reelStyle === "chill" ? 12 : 9;
   const reelImages = [draft.cover, photoList[(seed + 1) % photoList.length], photoList[(seed + 3) % photoList.length]];
-  const reelCaptions = [title, draft.range, "RSVP on Instagram"];
-  const adCopy = [
-    { id: "adA", headline: `${title} • ${draft.range.split(" • ")[0]}`, body: `Your next favorite night out is at ${draft.venueName || "a spot near you"}. ${draft.price}. Grab a friend and RSVP.`, cta: "RSVP now" },
-    { id: "adB", headline: "Come solo, leave with friends", body: `${title} brings people together ${draft.range.toLowerCase().includes("sat") ? "this Saturday" : "soon"}. Spots are filling up.`, cta: "Learn more" },
-  ];
+  const reelCaptions = museReelCaptions(draft);
+  const adCopy = adVariations(draft);
   const venueLabel = draft.venueName || "Location to be announced";
   const flyer = flyerThemes[flyerStyle];
 

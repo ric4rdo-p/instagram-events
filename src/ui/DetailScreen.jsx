@@ -13,7 +13,7 @@ import {
   DEMO_ORIGIN, ME, attendees, dateLabel, detailsFor, domainOf, driveMinutes, eventEnd, eventStart,
   gradientOf, initialsOf, kmBetween, linksFor, photoList, rangeParts, reportReasons, venueFor,
 } from "./data";
-import { answerQuestion, similarEvents, summarizeComments } from "../muse";
+import { answerQuestion, similarEvents, summarizeComments, summarizeEvent } from "../muse";
 
 function AskMuse({ event }) {
   const [question, setQuestion] = useState("");
@@ -568,7 +568,7 @@ export default function DetailScreen({ event, comments, experiences, onAddCommen
             <View style={{ flex: 1, gap: 10, minWidth: 0 }}>
               <View>
                 <Text style={{ fontSize: 12, fontWeight: "700", marginBottom: 3, color: C.ink }}>Muse summary</Text>
-                <Text style={{ fontSize: 12, lineHeight: 17, color: C.ink }}>{event.summary}</Text>
+                <Text style={{ fontSize: 12, lineHeight: 17, color: C.ink }}>{summarizeEvent(event)}</Text>
               </View>
               {mood ? (
                 <View style={s.mood}>
